@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.wrapper {
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 30rem;
+  text-align: center;
+}
+
+.illustration {
+  width: 10rem;
+}
+
+.description {
+  margin-bottom: 3rem;
+  font-family: 'Raleway';
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #252c31;
+}

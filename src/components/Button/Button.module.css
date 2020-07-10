@@ -1,0 +1,37 @@
+.button {
+  width: 100%;
+  font-family: Raleway, sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0.25rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  filter: brightness(0.8);
+}
+
+.button:active {
+  filter: brightness(0.65);
+}
+
+.sizeDefault {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.sizeLarge {
+  padding: 0.75rem 1.25rem;
+  font-size: 1.25rem;
+}
+
+.colorDefault {
+  background-color: #efefef;
+}
+
+.colorPrimary {
+  color: #fff;
+  background-color: #000;
+}
