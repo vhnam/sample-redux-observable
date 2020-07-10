@@ -1,20 +1,25 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import Cookies from 'js-cookie';
+import {Provider} from 'react-redux';
 
-import SignIn from './scenes/SignIn';
-import MusicCenter from './scenes/MusicCenter';
+import AppRouter from './routers';
+import configureStore from './redux/configureStore';
 
-import './App.css';
+const accessToken = Cookies.get('accessToken');
+const refreshToken = Cookies.set('refreshToken');
 
-function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route exact={true} path={'/'} component={SignIn} />
-        <Route exact={true} path={'/app'} component={MusicCenter} />
-      </Switch>
-    </Router>
-  );
-}
+const initialState = {
+  auth: {
+    accessToken,
+    refreshToken,
+  },
+};
+const store = configureStore(initialState);
+
+const App = () => (
+  <Provider store={store}>
+    <AppRouter />
+  </Provider>
+);
 
 export default App;

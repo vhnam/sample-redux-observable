@@ -26,7 +26,10 @@ const Button = ({children, className, size, color, ...others}) => {
   }, [color]);
 
   return (
-    <button className={clsx(styles.button, getSize(), getColor(), className)}>
+    <button
+      {...others}
+      className={clsx(styles.button, getSize(), getColor(), className)}
+    >
       {children}
     </button>
   );
