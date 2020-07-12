@@ -1,8 +1,10 @@
 import {lazy} from 'react';
 
+import config from '../config';
+
 const protectedRoutes = [
   {
-    path: '/app',
+    path: config.app.homepage,
     component: lazy(() => import('../scenes/MusicCenter')),
   },
 ];

@@ -6,14 +6,19 @@ import AppRouter from './routers';
 import configureStore from './redux/configureStore';
 
 const accessToken = Cookies.get('accessToken');
-const refreshToken = Cookies.set('refreshToken');
+const refreshToken = Cookies.get('refreshToken');
 
 const initialState = {
-  auth: {
-    accessToken,
-    refreshToken,
+  session: {
+    data: {
+      accessToken,
+      refreshToken,
+      isLoading: false,
+      isFailed: false,
+    },
   },
 };
+
 const store = configureStore(initialState);
 
 const App = () => (

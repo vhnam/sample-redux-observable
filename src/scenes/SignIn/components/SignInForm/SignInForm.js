@@ -8,7 +8,7 @@ import illustration from '../../../../assets/mello.svg';
 
 import styles from './SignInForm.module.css';
 
-const SignInForm = ({onSignIn}) => {
+const SignInForm = ({signInURL}) => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -16,13 +16,11 @@ const SignInForm = ({onSignIn}) => {
           <img className={styles.illustration} src={illustration} alt="Mello" />
           <p className={styles.description}>Welcome to our world!</p>
 
-          <Button
-            size={ButtonSize.Large}
-            color={ButtonColor.Primary}
-            onClick={onSignIn}
-          >
-            Okay, YOLO!!!
-          </Button>
+          <a href={signInURL}>
+            <Button size={ButtonSize.Large} color={ButtonColor.Primary}>
+              Okay, YOLO!!!
+            </Button>
+          </a>
         </Card>
       </div>
     </div>
@@ -30,7 +28,7 @@ const SignInForm = ({onSignIn}) => {
 };
 
 SignInForm.propTypes = {
-  onSignIn: PropTypes.func,
+  signInURL: PropTypes.string,
 };
 
 export default SignInForm;

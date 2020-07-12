@@ -1,8 +1,10 @@
 import {lazy} from 'react';
 
+import config from '../config';
+
 const publicRoutes = [
   {
-    path: '/',
+    path: config.app.index,
     component: lazy(() => import('../scenes/SignIn')),
   },
 ];

@@ -1,28 +1,35 @@
+import qs from 'qs';
+
 import config from '../../config';
 
-import {getRequestType} from './base';
-import requestStatus from '../constants/requestStatus';
+import base from './base';
 import {SIGN_IN, SIGN_OUT} from '../constants/session';
 
-import generateRandomString from '../../helpers/generateRandomString';
+export const signIn = (code) => {
+  const {method, url} = config.apis.token;
 
-export const signIn = () => {
-  const scope = 'user-read-private user-read-email';
-  const state = generateRandomString(16);
-  const requestSignIn = getRequestType(SIGN_IN);
-
-  console.log('hmmm');
-
-  return {
-    type: requestSignIn(requestStatus.REQUEST),
-    payload: {
-      client_id: config.env.client_id,
-      response_type: 'code',
-      redirect_uri: config.env.redirect_uri,
-      scope,
-      state,
-    },
+  const body = {
+    code: code,
+    grant_type: 'authorization_code',
+    redirect_uri: config.env.redirect_uri,
   };
+
+  const headers = {
+    'content-type': 'application/x-www-form-urlencoded',
+    Authorization:
+      'Basic ' +
+      new Buffer(
+        config.env.client_id + ':' + config.env.client_secret,
+      ).toString('base64'),
+  };
+
+  return base({
+    url,
+    method,
+    type: SIGN_IN,
+    body: qs.stringify(body),
+    headers,
+  });
 };
 
 export const signOut = () => {

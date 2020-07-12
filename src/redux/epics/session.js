@@ -1,19 +1,33 @@
 import {combineEpics} from 'redux-observable';
-import {filter, mergeMap} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
+import Cookies from 'js-cookie';
+
+import config from '../../config';
 
 import {getRequestType} from '../actions/base';
-import {SIGN_IN} from '../constants/session';
+
 import RequestStatus from '../constants/requestStatus';
+import {SIGN_IN} from '../constants/session';
+import {REDIRECT} from '../constants/redirect';
 
 const requestSignIn = getRequestType(SIGN_IN);
 
 const onSignIn = (action$, state$) =>
   action$.pipe(
-    filter((action) => action.type === requestSignIn(RequestStatus.REQUEST)),
-    mergeMap((action) => {
-      console.log(action);
+    filter((action) => action.type === requestSignIn(RequestStatus.SUCCESS)),
+    map(() => {
+      const {
+        access_token,
+        refresh_token,
+        expires_in,
+      } = state$.value.session.data;
 
-      return {type: requestSignIn(RequestStatus.SUCCESS)};
+      Cookies.set('accessToken', access_token, {
+        expires: expires_in / 86400,
+      });
+      Cookies.set('refreshToken', refresh_token);
+
+      return {type: REDIRECT, path: config.app.homepage};
     }),
   );
 
