@@ -22,10 +22,10 @@ const onSignIn = (action$, state$) =>
         expires_in,
       } = state$.value.session.data;
 
-      Cookies.set('accessToken', access_token, {
+      Cookies.set('access_token', access_token, {
         expires: expires_in / 86400,
       });
-      Cookies.set('refreshToken', refresh_token);
+      Cookies.set('refresh_token', refresh_token);
 
       return {type: REDIRECT, path: config.app.homepage};
     }),

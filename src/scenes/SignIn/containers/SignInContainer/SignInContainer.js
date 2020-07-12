@@ -5,9 +5,11 @@ import config from '../../../../config';
 
 import generateRandomString from '../../../../helpers/generateRandomString';
 import buildQueryString from '../../../../helpers/buildQueryString';
+import {addSnackBar, SnackBarType} from '../../../../helpers/snackBar';
+
+import {signIn} from '../../../../redux/actions/session';
 
 import SignInForm from '../../components/SignInForm';
-import {signIn} from '../../../../redux/actions/session';
 
 const SignInContainer = () => {
   const dispatch = useDispatch();
@@ -29,13 +31,19 @@ const SignInContainer = () => {
   }, []);
 
   const handleSignInFailed = useCallback(() => {
-    console.log('failed');
+    addSnackBar({
+      message: 'Sign in failed!',
+      type: SnackBarType.Danger,
+    });
   }, []);
 
   const handleSignInSuccess = useCallback(
     (code) => {
-      dispatch(signIn(code)).then((res) => {
-        console.log(res);
+      dispatch(signIn(code)).then(() => {
+        addSnackBar({
+          message: 'Sign in successfully!',
+          type: SnackBarType.Success,
+        });
       });
     },
     [dispatch],

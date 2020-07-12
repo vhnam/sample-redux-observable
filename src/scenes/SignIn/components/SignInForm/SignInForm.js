@@ -14,7 +14,7 @@ const SignInForm = ({signInURL}) => {
       <div className={styles.wrapper}>
         <Card>
           <img className={styles.illustration} src={illustration} alt="Mello" />
-          <p className={styles.description}>Welcome to our world!</p>
+          <p className={styles.description}>Welcome to my world!</p>
 
           <a href={signInURL}>
             <Button size={ButtonSize.Large} color={ButtonColor.Primary}>
