@@ -1,5 +1,5 @@
-import {combineEpics} from 'redux-observable';
-import {filter, map} from 'rxjs/operators';
+import {combineEpics, ofType} from 'redux-observable';
+import {map, zip} from 'rxjs/operators';
 import Cookies from 'js-cookie';
 
 import config from '../../config';
@@ -7,14 +7,22 @@ import config from '../../config';
 import {getRequestType} from '../actions/base';
 
 import RequestStatus from '../constants/requestStatus';
-import {SIGN_IN} from '../constants/session';
+import {CHECK_AUTH, SIGN_IN, SIGN_OUT} from '../constants/session';
 import {REDIRECT} from '../constants/redirect';
+import {GET_PROFILE, SET_PROFILE} from '../constants/profile';
 
 const requestSignIn = getRequestType(SIGN_IN);
+const requestSignOut = getRequestType(SIGN_OUT);
+const requestCheckAuth = getRequestType(CHECK_AUTH);
+const requestGetProfile = getRequestType(GET_PROFILE);
+const requestSetProfile = getRequestType(SET_PROFILE);
 
 const onSignIn = (action$, state$) =>
   action$.pipe(
-    filter((action) => action.type === requestSignIn(RequestStatus.SUCCESS)),
+    zip(
+      action$.ofType(requestSignIn(RequestStatus.SUCCESS)),
+      action$.ofType(requestGetProfile(RequestStatus.SUCCESS)),
+    ),
     map(() => {
       const {
         access_token,
@@ -31,4 +39,30 @@ const onSignIn = (action$, state$) =>
     }),
   );
 
-export default combineEpics(onSignIn);
+const onSignOut = (action$, state$) =>
+  action$.pipe(
+    ofType(requestSignOut(RequestStatus.REQUEST)),
+    map(() => {
+      Cookies.remove('access_token');
+      Cookies.remove('refresh_token');
+
+      return {type: 'RELOAD'};
+    }),
+  );
+
+const onCheckAuth = (action$, state$) =>
+  action$.pipe(
+    ofType(requestCheckAuth(RequestStatus.REQUEST)),
+    map(() => {
+      if (
+        !state$.value.session.data ||
+        (state$.value.session.data && !state$.value.session.data.access_token)
+      ) {
+        return {type: requestSignOut(RequestStatus.REQUEST)};
+      }
+
+      return {type: requestSetProfile(RequestStatus.REQUEST)};
+    }),
+  );
+
+export default combineEpics(onSignIn, onSignOut, onCheckAuth);

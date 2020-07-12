@@ -8,6 +8,7 @@ import buildQueryString from '../../../../helpers/buildQueryString';
 import {addSnackBar, SnackBarType} from '../../../../helpers/snackBar';
 
 import {signIn} from '../../../../redux/actions/session';
+import {getProfile} from '../../../../redux/actions/profile';
 
 import SignInForm from '../../components/SignInForm';
 
@@ -40,9 +41,11 @@ const SignInContainer = () => {
   const handleSignInSuccess = useCallback(
     (code) => {
       dispatch(signIn(code)).then(() => {
-        addSnackBar({
-          message: 'Sign in successfully!',
-          type: SnackBarType.Success,
+        dispatch(getProfile()).then(() => {
+          addSnackBar({
+            message: 'Sign in successfully!',
+            type: SnackBarType.Success,
+          });
         });
       });
     },

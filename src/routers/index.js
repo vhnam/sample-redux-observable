@@ -1,17 +1,17 @@
 import React, {Suspense} from 'react';
 import {Router, Switch, Route, Redirect} from 'react-router-dom';
-import {useSelector} from 'react-redux';
-import Cookies from 'js-cookie';
+import {useDispatch, useSelector} from 'react-redux';
 
 import config from '../config';
 
 import history from '../helpers/history';
-import {addSnackBar, SnackBarType} from '../helpers/snackBar';
 
+import {signOut} from '../redux/actions/session';
 import {selectAccessToken} from '../redux/selectors/session';
 
 import publicRoutes from './public';
 import protectedRoutes from './protected';
+import ProtectedLayout from '../layouts/ProtectedLayout';
 
 const PublicRoute = ({component: Component, ...others}) => (
   <Route
@@ -23,6 +23,7 @@ const PublicRoute = ({component: Component, ...others}) => (
 );
 
 const ProtectedRoute = ({component: Component, ...others}) => {
+  const dispatch = useDispatch();
   const isLogin = useSelector(selectAccessToken());
 
   if (isLogin) {
@@ -30,18 +31,17 @@ const ProtectedRoute = ({component: Component, ...others}) => {
       <Route
         {...others}
         render={(props) => {
-          return <Component {...props} />;
+          return (
+            <ProtectedLayout>
+              <Component {...props} />
+            </ProtectedLayout>
+          );
         }}
       />
     );
   }
 
-  addSnackBar({
-    message: 'Invalid session.',
-    type: SnackBarType.Danger,
-  });
-
-  Cookies.remove('refresh_token');
+  dispatch(signOut());
 
   return <Redirect to={config.app.index} />;
 };

@@ -3,24 +3,22 @@ import qs from 'qs';
 import config from '../../config';
 
 import base from './base';
-import {SIGN_IN, SIGN_OUT} from '../constants/session';
+import {SIGN_IN, SIGN_OUT, CHECK_AUTH} from '../constants/session';
 
 export const signIn = (code) => {
   const {method, url} = config.apis.token;
+  const {client_id, client_secret, redirect_uri} = config.env;
 
   const body = {
-    code: code,
+    code,
     grant_type: 'authorization_code',
-    redirect_uri: config.env.redirect_uri,
+    redirect_uri: redirect_uri,
   };
 
   const headers = {
     'content-type': 'application/x-www-form-urlencoded',
     Authorization:
-      'Basic ' +
-      new Buffer(
-        config.env.client_id + ':' + config.env.client_secret,
-      ).toString('base64'),
+      'Basic ' + new Buffer(client_id + ':' + client_secret).toString('base64'),
   };
 
   return base({
@@ -33,7 +31,13 @@ export const signIn = (code) => {
 };
 
 export const signOut = () => {
-  return {
+  return base({
     type: SIGN_OUT,
-  };
+  });
+};
+
+export const checkAuthorization = () => {
+  return base({
+    type: CHECK_AUTH,
+  });
 };

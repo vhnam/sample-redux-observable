@@ -1,6 +1,9 @@
+import Cookie from 'js-cookie';
+
 import {getRequestType} from '../actions/base';
-import {SIGN_IN, SIGN_OUT} from '../constants/session';
+
 import requestStatus from '../constants/requestStatus';
+import {GET_PROFILE, SET_PROFILE} from '../constants/profile';
 
 const initialState = {
   data: null,
@@ -8,13 +11,13 @@ const initialState = {
   isFailed: false,
 };
 
-const signInRequest = getRequestType(SIGN_IN);
-const signOutRequest = getRequestType(SIGN_OUT);
+const getProfileRequest = getRequestType(GET_PROFILE);
+const setProfileRequest = getRequestType(SET_PROFILE);
 
 const sessionReducer = (state = initialState, action) => {
   const {type} = action;
   switch (type) {
-    case signInRequest(requestStatus.REQUEST): {
+    case getProfileRequest(requestStatus.REQUEST): {
       return {
         ...state,
         data: null,
@@ -22,7 +25,7 @@ const sessionReducer = (state = initialState, action) => {
         isFailed: false,
       };
     }
-    case signInRequest(requestStatus.SUCCESS): {
+    case getProfileRequest(requestStatus.SUCCESS): {
       return {
         ...state,
         data: action.payload,
@@ -30,15 +33,26 @@ const sessionReducer = (state = initialState, action) => {
         isFailed: false,
       };
     }
-    case signInRequest(requestStatus.FAILURE): {
+    case getProfileRequest(requestStatus.FAILURE): {
       return {
         ...state,
         isLoading: false,
         isFailed: true,
       };
     }
-    case signOutRequest(requestStatus.REQUEST): {
-      return initialState;
+    case setProfileRequest(requestStatus.REQUEST): {
+      if (!state.data) {
+        const profile = Cookie.get('profile');
+
+        return {
+          ...state,
+          data: JSON.parse(profile),
+          isLoading: false,
+          isFailed: false,
+        };
+      }
+
+      return state;
     }
     default:
       return state;

@@ -12,6 +12,10 @@ const config = {
       url: 'https://accounts.spotify.com/api/token',
       method: 'POST',
     },
+    getProfile: {
+      url: 'https://api.spotify.com/v1/me',
+      method: 'GET',
+    },
   },
   env: {
     client_id: process.env.REACT_APP_CLIENT_ID,
