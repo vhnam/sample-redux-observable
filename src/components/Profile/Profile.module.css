@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.displayName {
+  margin: 0 0.75rem;
+  font-size: 1rem;
+}
+
+.btnLogout {
+  margin-left: 1.5rem;
+  font-size: 1rem;
+}

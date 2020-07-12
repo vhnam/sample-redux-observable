@@ -1,7 +1,9 @@
 import React from 'react';
 
+import MusicCenterContainer from './containers/MusicCenterContainer';
+
 const MusicCenter = () => {
-  return <div>MusicCenter</div>;
+  return <MusicCenterContainer />;
 };
 
 export default MusicCenter;

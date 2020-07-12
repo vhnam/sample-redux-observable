@@ -16,6 +16,10 @@ const config = {
       url: 'https://api.spotify.com/v1/me',
       method: 'GET',
     },
+    getPlaylists: {
+      url: (user_id) => `https://api.spotify.com/v1/users/${user_id}/playlists`,
+      method: 'GET',
+    },
   },
   env: {
     client_id: process.env.REACT_APP_CLIENT_ID,
