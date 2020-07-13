@@ -4709,10 +4709,10 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-glider-js@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/glider-js/-/glider-js-1.7.3.tgz#4d397fb9de0870753953244d146a94248d4eb394"
-  integrity sha512-smiepWalDyBAUtOH6Ev06fHlcQ128OUzGLx97E/9NcR8/fR+uALUVSMytVN6z5pIqO4kDGTzINniqZV2yMf8bg==
+glider-js@1.6.6:
+  version "1.6.6"
+  resolved "https://registry.yarnpkg.com/glider-js/-/glider-js-1.6.6.tgz#28c2592b52847507f1a92056b165baf30bc2f2a3"
+  integrity sha512-P1zzyjsrm/xNw6avk4ZKuQXNcDESQuy2OjDy89AF4Ln1LCMOSHlJGP3OkYIAIAxQl7YX4JO/XdEEsz9O7Eh6gA==
 
 glob-parent@^3.1.0:
   version "3.1.0"
@@ -8664,6 +8664,13 @@ react-error-overlay@^6.0.7:
   version "6.0.7"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
+
+react-glider@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-glider/-/react-glider-2.0.1.tgz#21596227aeabea7afe2c1d58283d543dc8636c37"
+  integrity sha512-59E7rmYS3qZQXNW2UOLPohEYult5Gj4HZswhXMsIi+cJztZRFAfBicAjXDlZmc6oXDrYvMJ5WnEAFrmJJnnn4Q==
+  dependencies:
+    glider-js "1.6.6"
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
   version "16.13.1"
