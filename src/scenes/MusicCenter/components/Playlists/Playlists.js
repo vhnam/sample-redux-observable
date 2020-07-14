@@ -37,7 +37,14 @@ const Playlists = ({playlists, onSelect, selectedPlaylist}) => {
                   src={img.url}
                   alt={item.name}
                 />
-                <div className={styles.name}>{item.name}</div>
+                <div
+                  className={clsx(styles.name, {
+                    [styles.selected]:
+                      selectedPlaylist && item.id === selectedPlaylist.id,
+                  })}
+                >
+                  {item.name}
+                </div>
               </div>
             );
           })}

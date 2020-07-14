@@ -1,5 +1,5 @@
 export const selectTracks = () => {
   return (store) => {
-    return store.tracks.data;
+    return store.tracks;
   };
 };

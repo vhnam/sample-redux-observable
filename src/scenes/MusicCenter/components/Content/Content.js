@@ -28,39 +28,42 @@ const Content = ({selectedPlaylist, tracks}) => {
           {selectedPlaylist.tracks.total}
         </span>
       </div>
-      <ul className={styles.list}>
-        {tracks.map((t, index) => {
-          const {track} = t;
-          const {album} = track;
 
-          return (
-            <li
-              key={`${track.id}:${index}`}
-              className={clsx(styles.item, {
-                [styles.isLocal]: t.is_local,
-              })}
-            >
-              <span className={styles.itemInformation}>
-                {album.images.length > 0 ? (
-                  <img
-                    className={styles.trackImage}
-                    src={album.images[0].url}
-                    alt={album.name}
-                  />
-                ) : (
-                  <div className={styles.trackImage} />
-                )}
-                <span className={styles.trackInformation}>
-                  <span className={styles.trackName}>{track.name}</span>
-                  <span className={styles.trackArtists}>
-                    {renderArtists(track.artists)}
+      <ul className={styles.list}>
+        {tracks
+          .filter((t) => t.track !== undefined)
+          .map((t, index) => {
+            const {track} = t;
+            const {album} = track;
+
+            return (
+              <li
+                key={`${track.id}:${index}`}
+                className={clsx(styles.item, {
+                  [styles.isLocal]: t.is_local,
+                })}
+              >
+                <span className={styles.itemInformation}>
+                  {album.images.length > 0 ? (
+                    <img
+                      className={styles.trackImage}
+                      src={album.images[0].url}
+                      alt={album.name}
+                    />
+                  ) : (
+                    <div className={styles.trackImage} />
+                  )}
+                  <span className={styles.trackInformation}>
+                    <span className={styles.trackName}>{track.name}</span>
+                    <span className={styles.trackArtists}>
+                      {renderArtists(track.artists)}
+                    </span>
                   </span>
                 </span>
-              </span>
-              <span>{formatDuration(track.duration_ms)}</span>
-            </li>
-          );
-        })}
+                <span>{formatDuration(track.duration_ms)}</span>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

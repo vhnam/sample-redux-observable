@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {selectProfile} from '../../../../redux/selectors/profile';
 import {getPlaylists} from '../../../../redux/actions/playlists';
 import {selectPlaylists} from '../../../../redux/selectors/playlists';
-import {getTracks} from '../../../../redux/actions/tracks';
+import {getTracks, clearTracks} from '../../../../redux/actions/tracks';
 import {selectTracks} from '../../../../redux/selectors/tracks';
 
 import MusicCenter from '../../components/MusicCenter';
@@ -21,10 +21,22 @@ const MusicCenterContainer = () => {
     (playlist_id) => {
       const p = playlists.items.find((playlist) => playlist.id === playlist_id);
       setSelectedPlaylist(p);
-      dispatch(getTracks(playlist_id));
+      dispatch(clearTracks()).then(() => {
+        dispatch(getTracks({playlist_id}));
+      });
     },
     [dispatch, playlists],
   );
+
+  const handleFetchMore = useCallback(() => {
+    if (tracks.data && !tracks.isLoading && tracks.data.next) {
+      dispatch(
+        getTracks({
+          cursor: tracks.data.next,
+        }),
+      );
+    }
+  }, [dispatch, tracks]);
 
   useEffect(() => {
     dispatch(getPlaylists(profile.id));
@@ -34,9 +46,11 @@ const MusicCenterContainer = () => {
     <div>
       <MusicCenter
         selectedPlaylist={selectedPlaylist}
-        tracks={tracks ? tracks.items : []}
+        tracks={tracks.data ? tracks.data.items : []}
         playlists={playlists ? playlists.items : []}
         onSelect={handleSelect}
+        onFetchMore={handleFetchMore}
+        isLoading={tracks.isLoading || !!(tracks.data && tracks.data.next)}
       />
     </div>
   );

@@ -15,9 +15,11 @@
 .image {
   width: 10rem;
   border-radius: 0.25rem;
+  filter: grayscale(0.875);
 }
 
 .image.selected {
+  filter: initial;
   box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.19),
     0 0.375rem 0.375rem rgba(0, 0, 0, 0.23);
 }
@@ -26,4 +28,9 @@
   margin-top: 0.375rem;
   text-align: center;
   color: #fff;
+  letter-spacing: 0.0625rem;
+}
+
+.name.selected {
+  color: #f49832;
 }
