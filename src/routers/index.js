@@ -13,13 +13,10 @@ import publicRoutes from './public';
 import protectedRoutes from './protected';
 import ProtectedLayout from '../layouts/ProtectedLayout';
 
+import Loading from '../components/Loading';
+
 const PublicRoute = ({component: Component, ...others}) => (
-  <Route
-    {...others}
-    render={(props) => {
-      return <Component {...props} />;
-    }}
-  />
+  <Route {...others} render={(props) => <Component {...props} />} />
 );
 
 const ProtectedRoute = ({component: Component, ...others}) => {
@@ -30,13 +27,11 @@ const ProtectedRoute = ({component: Component, ...others}) => {
     return (
       <Route
         {...others}
-        render={(props) => {
-          return (
-            <ProtectedLayout>
-              <Component {...props} />
-            </ProtectedLayout>
-          );
-        }}
+        render={(props) => (
+          <ProtectedLayout>
+            <Component {...props} />
+          </ProtectedLayout>
+        )}
       />
     );
   }
@@ -48,14 +43,14 @@ const ProtectedRoute = ({component: Component, ...others}) => {
 
 const AppRouter = () => (
   <Router history={history}>
-    <Suspense fallback={<div>LOADING</div>}>
+    <Suspense fallback={<Loading />}>
       <Switch>
-        {publicRoutes.map((route, index) => {
-          return <PublicRoute key={index} exact {...route} />;
-        })}
-        {protectedRoutes.map((route, index) => {
-          return <ProtectedRoute key={index} exact {...route} />;
-        })}
+        {publicRoutes.map((route, index) => (
+          <PublicRoute key={index} exact {...route} />
+        ))}
+        {protectedRoutes.map((route, index) => (
+          <ProtectedRoute key={index} exact {...route} />
+        ))}
       </Switch>
     </Suspense>
   </Router>

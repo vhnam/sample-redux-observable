@@ -1,23 +1,18 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import Glider from 'react-glider';
 import clsx from 'clsx';
+
+import Image from '../../../../components/Image';
 
 import 'glider-js/glider.min.css';
 import styles from './Playlists.module.css';
 
 const Playlists = ({playlists, onSelect, selectedPlaylist}) => {
-  const gliderRef = useRef(null);
-
-  useEffect(() => {
-    return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      gliderRef.current.destroy();
-    };
-  }, []);
+  const gliderRef = useRef();
 
   return (
-    <div>
+    <>
       {playlists.length > 0 && (
         <Glider ref={gliderRef} slidesToScroll={5} slidesToShow={5}>
           {playlists.map((item) => {
@@ -29,13 +24,15 @@ const Playlists = ({playlists, onSelect, selectedPlaylist}) => {
                 className={styles.playlist}
                 onClick={() => onSelect(item.id)}
               >
-                <img
+                <Image
                   className={clsx(styles.image, {
                     [styles.selected]:
                       selectedPlaylist && item.id === selectedPlaylist.id,
                   })}
                   src={img.url}
                   alt={item.name}
+                  height={160}
+                  width={160}
                 />
                 <div
                   className={clsx(styles.name, {
@@ -50,7 +47,7 @@ const Playlists = ({playlists, onSelect, selectedPlaylist}) => {
           })}
         </Glider>
       )}
-    </div>
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import formatDuration from '../../../../helpers/formatDuration';
 import {AudioTrack} from '../../../../components/Icons';
 
 import styles from './Content.module.css';
+import Image from '../../../../components/Image';
 
 const Content = ({selectedPlaylist, tracks}) => {
   const renderArtists = useCallback((artists) => {
@@ -45,8 +46,10 @@ const Content = ({selectedPlaylist, tracks}) => {
               >
                 <span className={styles.itemInformation}>
                   {album.images.length > 0 ? (
-                    <img
+                    <Image
                       className={styles.trackImage}
+                      width={48}
+                      height={48}
                       src={album.images[0].url}
                       alt={album.name}
                     />

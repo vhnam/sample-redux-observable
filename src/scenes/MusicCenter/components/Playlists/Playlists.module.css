@@ -16,6 +16,7 @@
   width: 10rem;
   border-radius: 0.25rem;
   filter: grayscale(0.875);
+  object-fit: cover;
 }
 
 .image.selected {
