@@ -23,6 +23,7 @@ const Playlists = ({playlists, onSelect, selectedPlaylist}) => {
                 key={item.id}
                 className={styles.playlist}
                 onClick={() => onSelect(item.id)}
+                title={item.name}
               >
                 <Image
                   className={clsx(styles.image, {
