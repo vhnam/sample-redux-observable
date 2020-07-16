@@ -15,9 +15,15 @@ import ProtectedLayout from '../layouts/ProtectedLayout';
 
 import Loading from '../components/Loading';
 
-const PublicRoute = ({component: Component, ...others}) => (
-  <Route {...others} render={(props) => <Component {...props} />} />
-);
+const PublicRoute = ({component: Component, ...others}) => {
+  const isLogin = useSelector(selectAccessToken());
+
+  if (isLogin) {
+    return <Redirect to={config.app.homepage} />;
+  }
+
+  return <Route {...others} render={(props) => <Component {...props} />} />;
+};
 
 const ProtectedRoute = ({component: Component, ...others}) => {
   const dispatch = useDispatch();
