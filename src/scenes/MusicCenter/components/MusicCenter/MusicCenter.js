@@ -5,6 +5,7 @@ import Loading from '../../../../components/Loading';
 
 import Playlists from '../Playlists';
 import Content from '../Content';
+import Player from '../Player';
 
 import styles from './MusicCenter.module.css';
 
@@ -47,7 +48,7 @@ const MusicCenter = ({
   }, [onFetchMore]);
 
   return (
-    <div>
+    <>
       <Playlists
         playlists={playlists}
         selectedPlaylist={selectedPlaylist}
@@ -66,7 +67,9 @@ const MusicCenter = ({
           {isLoading && <Loading />}
         </div>
       </div>
-    </div>
+
+      <Player />
+    </>
   );
 };
 

@@ -1,5 +1,7 @@
-import React, {useEffect, useCallback, useState} from 'react';
+import React, {useEffect, useCallback, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+
+import PlayerContext from '../../contexts/PlayerContext';
 
 import {selectProfile} from '../../../../redux/selectors/profile';
 import {getPlaylists} from '../../../../redux/actions/playlists';
@@ -7,15 +9,20 @@ import {selectPlaylists} from '../../../../redux/selectors/playlists';
 import {getTracks, clearTracks} from '../../../../redux/actions/tracks';
 import {selectTracks} from '../../../../redux/selectors/tracks';
 
+import useToggle from '../../../../hooks/useToggle';
+
 import MusicCenter from '../../components/MusicCenter';
 
 const MusicCenterContainer = () => {
   const dispatch = useDispatch();
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  const togglePlaying = useToggle();
 
   const profile = useSelector(selectProfile());
   const playlists = useSelector(selectPlaylists());
   const tracks = useSelector(selectTracks());
+
+  const audioObject = useRef();
 
   const handleSelect = useCallback(
     (playlist_id) => {
@@ -38,12 +45,40 @@ const MusicCenterContainer = () => {
     }
   }, [dispatch, tracks]);
 
+  const handlePlay = useCallback(
+    (track) => {
+      audioObject.current = new Audio(track.preview_url);
+      audioObject.current.play();
+      togglePlaying.setActive();
+    },
+    [togglePlaying],
+  );
+
+  const handlePause = useCallback(() => {
+    audioObject.current.pause();
+    togglePlaying.setInActive();
+  }, [togglePlaying]);
+
+  const handleResume = useCallback(() => {
+    audioObject.current.play();
+    togglePlaying.setActive();
+  }, [togglePlaying]);
+
   useEffect(() => {
-    dispatch(getPlaylists(profile.id));
-  }, [dispatch, profile.id]);
+    if (profile) {
+      dispatch(getPlaylists(profile.id));
+    }
+  }, [dispatch, profile]);
 
   return (
-    <div>
+    <PlayerContext.Provider
+      value={{
+        isPlaying: togglePlaying.isActive,
+        onPlay: handlePlay,
+        onPause: handlePause,
+        onResume: handleResume,
+      }}
+    >
       <MusicCenter
         selectedPlaylist={selectedPlaylist}
         tracks={tracks.data ? tracks.data.items : []}
@@ -52,7 +87,7 @@ const MusicCenterContainer = () => {
         onFetchMore={handleFetchMore}
         isLoading={tracks.isLoading || !!(tracks.data && tracks.data.next)}
       />
-    </div>
+    </PlayerContext.Provider>
   );
 };
 

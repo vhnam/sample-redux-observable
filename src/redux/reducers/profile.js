@@ -43,9 +43,9 @@ const profileReducer = (state = initialState, action) => {
       };
     }
     case setProfileRequest(requestStatus.REQUEST): {
-      if (!state.data) {
-        const profile = Cookie.get('profile');
+      const profile = Cookie.get('profile');
 
+      if (!state.data && profile) {
         return {
           ...state,
           data: JSON.parse(profile),

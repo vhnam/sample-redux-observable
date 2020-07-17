@@ -1,0 +1,23 @@
+.container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #454545;
+}
+
+.btn {
+  color: #fff;
+}
+
+.btn:hover {
+  filter: brightness(0.85);
+}
+
+.btn:active {
+  filter: brightness(0.65);
+}

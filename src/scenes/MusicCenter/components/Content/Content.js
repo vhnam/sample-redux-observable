@@ -1,6 +1,8 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useContext} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+
+import PlayerContext from '../../contexts/PlayerContext';
 
 import formatDuration from '../../../../helpers/formatDuration';
 
@@ -10,6 +12,8 @@ import styles from './Content.module.css';
 import Image from '../../../../components/Image';
 
 const Content = ({selectedPlaylist, tracks}) => {
+  const playerContext = useContext(PlayerContext);
+
   const renderArtists = useCallback((artists) => {
     const arr = [];
 
@@ -19,6 +23,13 @@ const Content = ({selectedPlaylist, tracks}) => {
 
     return arr.join(', ');
   }, []);
+
+  const handlePlay = useCallback(
+    (track) => {
+      return () => playerContext.onPlay(track);
+    },
+    [playerContext],
+  );
 
   return (
     <div className={styles.container}>
@@ -43,6 +54,7 @@ const Content = ({selectedPlaylist, tracks}) => {
                 className={clsx(styles.item, {
                   [styles.isLocal]: t.is_local,
                 })}
+                onClick={handlePlay(track)}
               >
                 <span className={styles.itemInformation}>
                   {album.images.length > 0 ? (
